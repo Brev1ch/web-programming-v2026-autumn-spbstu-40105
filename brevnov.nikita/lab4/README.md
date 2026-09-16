@@ -29,7 +29,7 @@
 `participantCount` класса `Event`, чтобы функция одинаково работала и с
 экземплярами `Event`, и с обычными объектами такой же формы).
 `getUniqueParticipants` использует `Set` для дедупликации участников по всем
-мероприятиям сразу. `findEventsByParticipant`/`getEventsByMonth` — обычная
+мероприятиям сразу. `findEventsByParticipant`/`findEventsByMonth` — обычная
 фильтрация массива. Ни одна из функций не изменяет переданный ей массив
 мероприятий.
 

@@ -1,4 +1,4 @@
-import { Event } from './model.js';
+import {Event} from './model.js';
 
 const STORAGE_KEY = 'lab4-events';
 const ASYNC_DELAY = 300;
@@ -20,7 +20,7 @@ function saveEvents(events) {
 
 let events = loadEvents();
 
-function addEventAsync({ id, title, participants, date }) {
+function addEventAsync({id, title, participants, date}) {
   return new Promise((resolve) => {
     setTimeout(() => {
       const newEvent = new Event(id, title, participants, date);
@@ -193,7 +193,7 @@ function setupEntityForm() {
       return;
     }
 
-    await addEventAsync({ id, title, date, participants: [] });
+    await addEventAsync({id, title, date, participants: []});
     form.reset();
     render();
   });
