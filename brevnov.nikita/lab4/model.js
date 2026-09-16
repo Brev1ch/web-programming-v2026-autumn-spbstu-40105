@@ -1,5 +1,5 @@
 export class Event {
-  constructor({id, title, participants = [], date}) {
+  constructor(id, title, participants = [], date) {
     this.id = id;
     this.title = title;
     this.participants = [...participants];

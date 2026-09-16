@@ -1,4 +1,4 @@
-import { Event } from './model.js';
+import {Event} from './model.js';
 
 const STORAGE_KEY = 'lab4-events';
 const ASYNC_DELAY = 300;
@@ -13,7 +13,9 @@ function loadEvents() {
     return [];
   }
   const parsed = JSON.parse(raw);
-  return parsed.map((item) => new Event(item));
+  return parsed.map(
+    (item) => new Event(item.id, item.title, item.participants, item.date),
+  );
 }
 
 function saveEvents(events) {
@@ -26,10 +28,10 @@ let events = loadEvents();
  * Все операции изменения выполняются "асинхронно" через Promise + setTimeout,
  * как того требует задание — это имитирует поход на сервер за реальным API.
  */
-function addEventAsync(eventData) {
+function addEventAsync({id, title, participants, date}) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const newEvent = new Event(eventData);
+      const newEvent = new Event(id, title, participants, date);
       events = [...events, newEvent];
       saveEvents(events);
       resolve(newEvent);
@@ -199,7 +201,7 @@ function setupEntityForm() {
       return;
     }
 
-    await addEventAsync({ id, title, date, participants: [] });
+    await addEventAsync({id, title, date, participants: []});
     form.reset();
     render();
   });
