@@ -39,7 +39,7 @@ export function getUniqueParticipants(events) {
 
 export function groupEventsByParticipantCount(events) {
   return events.reduce((groups, event) => {
-    const key = event.participantCount;
+    const key = event.participants.length;
     const existing = groups[key] || [];
     return {...groups, [key]: [...existing, event]};
   }, {});
