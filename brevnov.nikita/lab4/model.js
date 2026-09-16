@@ -25,7 +25,7 @@ export function groupEventsByDate(events) {
   return events.reduce((groups, event) => {
     const key = event.date;
     const existing = groups[key] || [];
-    return {...groups, [key]: [...existing, event]};
+    return { ...groups, [key]: [...existing, event] };
   }, {});
 }
 
@@ -46,12 +46,12 @@ export function groupEventsByParticipantCount(events) {
   }, new Map());
 }
 
-export function getEventsByParticipant(events, participantName) {
-  return events.filter((event) => event.participants.includes(participantName));
+export function findEventsByParticipant(events, participantName) {
+  return events.filter((event) =>
+    event.participants.includes(participantName),
+  );
 }
 
 export function getEventsByMonth(events, month) {
-  return events.filter(
-    (event) => new Date(event.date).getMonth() + 1 === month,
-  );
+  return events.filter((event) => new Date(event.date).getMonth() + 1 === month);
 }
