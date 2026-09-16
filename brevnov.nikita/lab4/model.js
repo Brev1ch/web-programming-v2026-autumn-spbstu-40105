@@ -25,7 +25,7 @@ export function groupEventsByDate(events) {
   return events.reduce((groups, event) => {
     const key = event.date;
     const existing = groups[key] || [];
-    return {...groups, [key]: [...existing, event]};
+    return { ...groups, [key]: [...existing, event] };
   }, {});
 }
 
@@ -40,17 +40,18 @@ export function getUniqueParticipants(events) {
 export function groupEventsByParticipantCount(events) {
   return events.reduce((groups, event) => {
     const key = event.participants.length;
-    const existing = groups[key] || [];
-    return {...groups, [key]: [...existing, event]};
-  }, {});
+    const existing = groups.get(key) || [];
+    groups.set(key, [...existing, event]);
+    return groups;
+  }, new Map());
 }
 
 export function getEventsByParticipant(events, participantName) {
-  return events.filter((event) => event.participants.includes(participantName));
+  return events.filter((event) =>
+    event.participants.includes(participantName),
+  );
 }
 
 export function getEventsByMonth(events, month) {
-  return events.filter(
-    (event) => new Date(event.date).getMonth() + 1 === month,
-  );
+  return events.filter((event) => new Date(event.date).getMonth() + 1 === month);
 }

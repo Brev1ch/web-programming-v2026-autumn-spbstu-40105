@@ -1,12 +1,8 @@
-import {Event} from './model.js';
+import { Event } from './model.js';
 
 const STORAGE_KEY = 'lab4-events';
 const ASYNC_DELAY = 300;
 
-/**
- * Загружает мероприятия из localStorage и восстанавливает их
- * как экземпляры класса Event (а не просто plain-объекты из JSON).
- */
 function loadEvents() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
@@ -24,11 +20,7 @@ function saveEvents(events) {
 
 let events = loadEvents();
 
-/**
- * Все операции изменения выполняются "асинхронно" через Promise + setTimeout,
- * как того требует задание — это имитирует поход на сервер за реальным API.
- */
-function addEventAsync({id, title, participants, date}) {
+function addEventAsync({ id, title, participants, date }) {
   return new Promise((resolve) => {
     setTimeout(() => {
       const newEvent = new Event(id, title, participants, date);
@@ -201,7 +193,7 @@ function setupEntityForm() {
       return;
     }
 
-    await addEventAsync({id, title, date, participants: []});
+    await addEventAsync({ id, title, date, participants: [] });
     form.reset();
     render();
   });
