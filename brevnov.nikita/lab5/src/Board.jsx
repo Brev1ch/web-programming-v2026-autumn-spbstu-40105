@@ -1,4 +1,4 @@
-function Board({ board, onCellClick }) {
+function Board({board, onCellClick}) {
   return (
     <div className="board" data-testid="game-board">
       {board.map((cell, index) => (
@@ -16,6 +16,5 @@ function Board({ board, onCellClick }) {
     </div>
   );
 }
- 
+
 export default Board;
- 

@@ -4,10 +4,18 @@ function Splash({onStart}) {
       <h1>Крестики-нолики</h1>
       <p>Выберите режим игры</p>
       <div className="splash-actions">
-        <button type="button" onClick={() => onStart('computer')}>
+        <button
+          type="button"
+          data-testid="start-vs-computer"
+          onClick={() => onStart('computer')}
+        >
           Против компьютера
         </button>
-        <button type="button" onClick={() => onStart('player')}>
+        <button
+          type="button"
+          data-testid="start-vs-player"
+          onClick={() => onStart('player')}
+        >
           Против другого игрока
         </button>
       </div>
