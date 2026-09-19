@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Splash from './Splash.jsx';
 import Board from './Board.jsx';
 import GameOverScreen from './GameOverScreen.jsx';
@@ -9,29 +9,39 @@ import {
   getRandomComputerMove,
 } from './gameLogic.js';
 
-const SCREEN = {
-  SPLASH: 'splash',
-  PLAYING: 'playing',
-  GAME_OVER: 'gameOver',
-};
+const INTRO_DURATION_MS = 1200;
 
 function App() {
-  const [screen, setScreen] = useState(SCREEN.SPLASH);
+  const [showIntro, setShowIntro] = useState(true);
   const [mode, setMode] = useState('player');
   const [board, setBoard] = useState(createEmptyBoard());
   const [currentPlayer, setCurrentPlayer] = useState('X');
   const [winner, setWinner] = useState(null);
+  const [isOver, setIsOver] = useState(false);
 
-  function startGame(selectedMode) {
-    setMode(selectedMode);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setShowIntro(false), INTRO_DURATION_MS);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  function dismissIntro() {
+    setShowIntro(false);
+  }
+
+  function restart() {
     setBoard(createEmptyBoard());
     setCurrentPlayer('X');
     setWinner(null);
-    setScreen(SCREEN.PLAYING);
+    setIsOver(false);
+  }
+
+  function selectMode(selectedMode) {
+    setMode(selectedMode);
+    restart();
   }
 
   function handleCellClick(index) {
-    if (board[index] !== null) {
+    if (isOver || board[index] !== null) {
       return;
     }
 
@@ -42,7 +52,7 @@ function App() {
     const nextWinner = calculateWinner(nextBoard);
     if (nextWinner || isBoardFull(nextBoard)) {
       setWinner(nextWinner);
-      setScreen(SCREEN.GAME_OVER);
+      setIsOver(true);
       return;
     }
 
@@ -50,11 +60,7 @@ function App() {
   }
 
   useEffect(() => {
-    if (
-      screen !== SCREEN.PLAYING ||
-      mode !== 'computer' ||
-      currentPlayer !== 'O'
-    ) {
+    if (isOver || mode !== 'computer' || currentPlayer !== 'O') {
       return;
     }
 
@@ -71,7 +77,7 @@ function App() {
       const nextWinner = calculateWinner(nextBoard);
       if (nextWinner || isBoardFull(nextBoard)) {
         setWinner(nextWinner);
-        setScreen(SCREEN.GAME_OVER);
+        setIsOver(true);
         return;
       }
 
@@ -79,25 +85,42 @@ function App() {
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [board, currentPlayer, mode, screen]);
+  }, [board, currentPlayer, mode, isOver]);
 
   return (
     <main data-testid="app" className="app">
-      {screen === SCREEN.SPLASH && <Splash onStart={startGame} />}
+      <Splash hidden={!showIntro} onDismiss={dismissIntro} />
 
-      {screen === SCREEN.PLAYING && (
-        <div className="game">
-          <p className="current-player">Ход игрока: {currentPlayer}</p>
-          <Board board={board} onCellClick={handleCellClick} />
+      <div className="game">
+        <div className="mode-switch">
+          <button
+            type="button"
+            data-testid="start-vs-computer"
+            className={`mode-switch-button${mode === 'computer' ? ' mode-switch-button-active' : ''}`}
+            onClick={() => selectMode('computer')}
+          >
+            Против компьютера
+          </button>
+          <button
+            type="button"
+            data-testid="start-vs-player"
+            className={`mode-switch-button${mode === 'player' ? ' mode-switch-button-active' : ''}`}
+            onClick={() => selectMode('player')}
+          >
+            Против другого игрока
+          </button>
         </div>
-      )}
 
-      {screen === SCREEN.GAME_OVER && (
-        <GameOverScreen
-          winner={winner}
-          onRestart={() => setScreen(SCREEN.SPLASH)}
-        />
-      )}
+        <p className="current-player">Ход игрока: {currentPlayer}</p>
+        <Board board={board} onCellClick={handleCellClick} />
+      </div>
+
+      <div
+        className={`game-over${isOver ? '' : ' game-over-hidden'}`}
+        data-testid="game-over-screen"
+      >
+        <GameOverScreen winner={winner} onRestart={restart} />
+      </div>
     </main>
   );
 }

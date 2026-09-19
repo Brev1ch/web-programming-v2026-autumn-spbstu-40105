@@ -1,24 +1,12 @@
-function Splash({onStart}) {
+function Splash({hidden, onDismiss}) {
   return (
-    <div className="splash" data-testid="splash-screen">
+    <div
+      className={`splash${hidden ? ' splash-hidden' : ''}`}
+      data-testid="splash-screen"
+      onClick={onDismiss}
+    >
       <h1>Крестики-нолики</h1>
-      <p>Выберите режим игры</p>
-      <div className="splash-actions">
-        <button
-          type="button"
-          data-testid="start-vs-computer"
-          onClick={() => onStart('computer')}
-        >
-          Против компьютера
-        </button>
-        <button
-          type="button"
-          data-testid="start-vs-player"
-          onClick={() => onStart('player')}
-        >
-          Против другого игрока
-        </button>
-      </div>
+      <p>Нажмите в любом месте, чтобы начать</p>
     </div>
   );
 }
