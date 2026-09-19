@@ -1,12 +1,12 @@
-function Board({board, onCellClick}) {
+function Board({ board, onCellClick }) {
   return (
-    <div className="board" data-testid="board">
+    <div className="board" data-testid="game-board">
       {board.map((cell, index) => (
         <button
           key={index}
           type="button"
           className="board-cell"
-          data-testid="board-cell"
+          data-testid="game-cell"
           onClick={() => onCellClick(index)}
           disabled={cell !== null}
         >
@@ -16,5 +16,6 @@ function Board({board, onCellClick}) {
     </div>
   );
 }
-
+ 
 export default Board;
+ 
