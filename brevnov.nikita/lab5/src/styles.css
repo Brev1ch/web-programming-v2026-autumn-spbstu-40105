@@ -78,18 +78,9 @@ body {
 }
 
 .game-over {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
+  gap: 8px;
   text-align: center;
-  background: rgb(0 0 0 / 0.85);
-}
-
-.game-over-hidden {
-  display: none;
 }

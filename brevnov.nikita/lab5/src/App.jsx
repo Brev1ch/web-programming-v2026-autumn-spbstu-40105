@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Splash from './Splash.jsx';
 import Board from './Board.jsx';
 import GameOverScreen from './GameOverScreen.jsx';
@@ -122,13 +122,10 @@ function App() {
 
         <p className="current-player">Ход игрока: {currentPlayer}</p>
         <Board board={board} onCellClick={handleCellClick} />
-      </div>
 
-      <div
-        className={`game-over${isOver ? '' : ' game-over-hidden'}`}
-        data-testid="game-over-screen"
-      >
-        <GameOverScreen winner={winner} onRestart={restart} />
+        <div className="game-over" data-testid="game-over-screen">
+          <GameOverScreen isOver={isOver} winner={winner} onRestart={restart} />
+        </div>
       </div>
     </main>
   );
