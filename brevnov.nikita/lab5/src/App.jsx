@@ -87,6 +87,15 @@ function App() {
     return () => clearTimeout(timeoutId);
   }, [board, currentPlayer, mode, isOver]);
 
+  const computerButtonClassName =
+    mode === 'computer'
+      ? 'mode-switch-button mode-switch-button-active'
+      : 'mode-switch-button';
+  const playerButtonClassName =
+    mode === 'player'
+      ? 'mode-switch-button mode-switch-button-active'
+      : 'mode-switch-button';
+
   return (
     <main data-testid="app" className="app">
       <Splash hidden={!showIntro} onDismiss={dismissIntro} />
@@ -96,7 +105,7 @@ function App() {
           <button
             type="button"
             data-testid="start-vs-computer"
-            className={`mode-switch-button${mode === 'computer' ? ' mode-switch-button-active' : ''}`}
+            className={computerButtonClassName}
             onClick={() => selectMode('computer')}
           >
             Против компьютера
@@ -104,7 +113,7 @@ function App() {
           <button
             type="button"
             data-testid="start-vs-player"
-            className={`mode-switch-button${mode === 'player' ? ' mode-switch-button-active' : ''}`}
+            className={playerButtonClassName}
             onClick={() => selectMode('player')}
           >
             Против другого игрока
